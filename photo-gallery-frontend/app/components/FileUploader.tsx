@@ -1,17 +1,18 @@
 'use client'
-import {ChangeEvent, useState} from "react";
-import AlertPopup, {AlertType} from "@/app/components/AlertPopup";
+import {ChangeEvent, useContext} from "react";
+import AlertContext from "@/app/components/Alert/AlertContext";
+import {AlertType} from "@/app/components/Alert/AlertPopup";
+
 
 export default function FileUploader()
 {
-    const [showPopup, setShowPopup] =
-        useState(false);
+    const {addAlert} = useContext(AlertContext);
     const onChoose = (event:ChangeEvent<HTMLInputElement>) => {
 
         if (!event.target.files)
             return;
         if(!event.target.files[0].type.includes('image'))
-            setShowPopup(true);
+            addAlert(AlertType.warning, "file must be image!");
 
         const selectedFile = event.target.files[0];
         console.log('Выбран файл:', selectedFile);
