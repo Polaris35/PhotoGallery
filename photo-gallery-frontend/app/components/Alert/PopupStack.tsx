@@ -8,13 +8,15 @@ function PopupStack() {
     const { alertList } = useContext(AlertContext);
 
     return (
-        <ul className={"fixed bottom-2 right-2 max-h-80 scroll-auto"}>
-                {alertList.map((item, idx)=> {
-                    return <li key={idx}>
-                        <AlertPopup type={item.type} alertMessage={item.alertMessage}/>
-                    </li>
+        <div className={"fixed bottom-2 right-2 max-h-80 flex flex-col gap-2"}>
+                {
+                    alertList.map((item, idx)=> {
+                        console.log(alertList.length);
+                        return (
+                            <AlertPopup key={idx} type={item.type} alertMessage={item.alertMessage}/>
+                        )
                 })}
-        </ul>
+        </div>
     )
 }
 

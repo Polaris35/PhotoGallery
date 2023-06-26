@@ -1,11 +1,7 @@
 import Link from "next/link";
 import ThemeToggle from "@/app/components/ThemeToggle";
 
-type props = {
-    // onLogin(): boolean;
-    // onLogOut(): boolean;
-};
-export default function Header(props:props) {
+export default function Header() {
     return <header>
         <div className="drawer">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />

@@ -11,17 +11,14 @@ export default function FileUploader()
 
         if (!event.target.files)
             return;
-        if(!event.target.files[0].type.includes('image'))
+        if(!event.target.files[0].type.includes('image')) {
             addAlert(AlertType.warning, "file must be image!");
+        }
 
         const selectedFile = event.target.files[0];
         console.log('Выбран файл:', selectedFile);
     }
     return (
-        <>
             <input type={"file"} onChange={onChoose} className="file-input file-input-bordered file-input-accent w-full max-w-xs ml-auto mr-10"/>
-            {/*<AlertPopup type={AlertType.warning} alertMessage={"file must be image"}/>*/}
-        </>
-
     )
 }
