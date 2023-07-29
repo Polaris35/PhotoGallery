@@ -4,15 +4,15 @@ import { useState } from 'react'
 import { AlertProvider } from './Alert/AlertContext'
 import PopupStack from './Alert/PopupStack'
 
-export default function Providers({ children }: {children: React.ReactNode}) {
-  const [queryClient] = useState(() => new QueryClient())
+export default function Providers({ children }: { children: React.ReactNode }) {
+    const [queryClient] = useState(() => new QueryClient())
 
-  return (
-    <QueryClientProvider client={queryClient}>
-        <AlertProvider>
-            {children}
-        <PopupStack/>
-        </AlertProvider>
-    </QueryClientProvider>
-  )
+    return (
+        <QueryClientProvider client={queryClient}>
+            <AlertProvider>
+                {children}
+                <PopupStack />
+            </AlertProvider>
+        </QueryClientProvider>
+    )
 }
