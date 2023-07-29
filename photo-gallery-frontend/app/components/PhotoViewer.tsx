@@ -16,7 +16,7 @@ export default function PhotoViewer(props: props) {
         changeState(state);
     }
     return <>
-        <Image className={"rounded-2xl"} onClick={onImgClick} alt={props.alt} width={props.width} height={props.height} src={props.src}/>
+        <Image className={"h-auto max-w-full rounded-lg"} onClick={onImgClick} alt={props.alt} width={props.width} height={props.height} src={props.src}/>
         <div onClick={onImgClick} className=
                  {(`${isOpen ? "visible" : "invisible"} flex justify-center items-center 
                  fixed h-full w-full top-0 right-0 bg-base-200/60
@@ -26,3 +26,5 @@ export default function PhotoViewer(props: props) {
         </div>
     </>
 }
+
+//<Image className="h-auto max-w-full rounded-lg" alt={"image-1"} width={280} height={120} src={"/image.jfif"}/>

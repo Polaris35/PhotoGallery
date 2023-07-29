@@ -15,16 +15,16 @@ export default function Header() {
                     <div className="flex-1">
                         <a className="btn btn-ghost normal-case text-xl">PhotoGallery</a>
                     </div>
-                    <ThemeToggle/>
+
                 </div>
             </div>
             <div className="drawer-side">
-                <label htmlFor="my-drawer" className="drawer-overlay"></label>
                 <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
                     {/* Sidebar content here */}
-                    <li><Link href="/">Main Page</Link></li>
-                    {/*<li><Link href={"#"}>Sidebar Item 2</Link></li>*/}
-
+                    <li>
+                    <Link className={"text-xl"} href="/">Main Page</Link>
+                    </li>
+                    {/*<li><ThemeToggle/></li>*/}
                 </ul>
             </div>
         </div>

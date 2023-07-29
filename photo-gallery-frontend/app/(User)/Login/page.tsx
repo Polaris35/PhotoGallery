@@ -2,7 +2,7 @@
 import {FormEvent, useState} from "react";
 import Link from "next/link";
 
-function Registration() {
+function Login() {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [checkState, setCheckState] = useState(false);
@@ -13,18 +13,16 @@ function Registration() {
 
     }
     return (
-        <div
-            className="w-full rounded-lg shadow bg-primary-content border-neutral dark:border md:mt-0 sm:max-w-md xl:p-0">
-            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 className="text-xl font-bold leading-tight tracking-tight text-neutral-content md:text-2xl">
-                    Sign in to your account
-                </h1>
-                <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
-                    <div className="form-control w-full">
-                        <label className={"label"}>
-                            <span className="label-text text-neutral-content">Your username</span>
-                        </label>
-                        <input type="text"
+        <>
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-neutral-content md:text-2xl">
+                Sign in to your account
+            </h1>
+            <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
+                <div className="form-control w-full">
+                    <label className={"label"}>
+                        <span className="label-text text-neutral-content">Your username</span>
+                    </label>
+                    <input type="text"
                                className="input input-bordered input-primary w-full focus:border-none focus:drop-shadow-md"
                                placeholder="some name"/>
                     </div>
@@ -49,14 +47,13 @@ function Registration() {
                     </button>
                     <div className="text-sm font-light flex gap-2">
                         <span>Don’t have an account yet?</span>
-                        <Link href="/"
+                        <Link href="/Registration"
                               className="font-medium link link-primary">Sign
                             up</Link>
                     </div>
                 </form>
-            </div>
-        </div>
+                </>
     )
 }
 
-export default Registration;
+export default Login;

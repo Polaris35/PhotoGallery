@@ -1,15 +1,18 @@
 'use client'
+import {memo} from "react";
+
 export enum AlertType {
     info,
     warning,
     success,
     error
 }
+
 export type Alert = {
     type: AlertType;
     alertMessage: string;
 }
-export default function AlertPopup(props:Alert) {
+function AlertPopup(props:Alert) {
     switch(props.type)
     {
         case (AlertType.info):
@@ -42,3 +45,5 @@ export default function AlertPopup(props:Alert) {
             )
     }
 }
+
+export default memo(AlertPopup);

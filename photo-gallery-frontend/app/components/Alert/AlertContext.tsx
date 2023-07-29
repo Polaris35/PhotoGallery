@@ -2,17 +2,14 @@
 import {createContext, ReactNode, useState} from "react";
 import {Alert, AlertType} from "@/app/components/Alert/AlertPopup";
 
-interface AlertContextProps {
+type AlertContextProps = {
     alertList: Alert[];
     addAlert: (type: AlertType, alertMessage: string) => void;
-    removeAlert: () => void;
 }
 
 const AlertContext = createContext<AlertContextProps>({
     alertList: [],
     addAlert: (type, alertMessage) => {
-    },
-    removeAlert: () => {
     },
 });
 
@@ -26,7 +23,6 @@ export const AlertProvider = ({ children }:{ children: ReactNode }) => {
         const interval = setInterval(()=>{
             if(alertList.length === 0)
                 clearInterval(interval);
-
             removeAlert();
         },5000);
     }
@@ -42,7 +38,6 @@ export const AlertProvider = ({ children }:{ children: ReactNode }) => {
     const contextValue = {
         alertList,
         addAlert,
-        removeAlert,
     };
 
     return (
