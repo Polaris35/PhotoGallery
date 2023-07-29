@@ -28,10 +28,13 @@ function RegistrationForm() {
         onSuccess: () => {
             addAlert(AlertType.success, 'new user successful registered');
          // void router.push('/Login');
+        },
+        onError: (error:string) => {
+            addAlert(AlertType.error, error)
         }
       })
 
-    const onSubmit = (event:FormEvent)=>{
+    const onSubmit = async (event:FormEvent)=>{
         event.preventDefault();
         if(login.length < 4 ) {
             addAlert(AlertType.info, 'login must be at least 4 characters long');
@@ -45,7 +48,7 @@ function RegistrationForm() {
             addAlert(AlertType.error, 'password not the same');
             return;
         }
-        mutation.mutateAsync({ username: login, password: password })
+        mutation.mutateAsync({ username: login, password: password });
     }
     
     
@@ -89,7 +92,7 @@ function RegistrationForm() {
                         />
                     </div>
                     <button type="submit"
-                            className="w-full btn btn-primary">Create an account
+                            className="w-full mt-3 btn btn-primary">Create an account
                     </button>
                     <div className="text-sm font-light flex gap-2">
                         <span>Already have an account?</span>
