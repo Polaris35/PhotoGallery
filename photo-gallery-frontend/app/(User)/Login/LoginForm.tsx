@@ -7,6 +7,7 @@ import axios, { AxiosError } from 'axios'
 import { AlertType } from '@/app/components/Alert/AlertPopup'
 import { useRouter } from 'next/navigation'
 import { ServerErrorResponse, User } from '../types'
+import Login from '@/app/utils/Login'
 
 function LoginForm() {
     const { addAlert } = useContext(AlertContext)
@@ -16,27 +17,9 @@ function LoginForm() {
 
     const router = useRouter()
 
-    const mutation = useMutation({
-        mutationFn: (user: User) => {
-            // console.log(user)
-            return axios.post('http://localhost:8080/api/user/auth', user)
-        },
-        onSuccess: () => {
-            addAlert(AlertType.success, 'Wellcome!! :)')
-            void router.push('/')
-        },
-        onError: (error: AxiosError) => {
-            const status = error.response?.status
-            if (!status) return
-
-            const err = error.response?.data as ServerErrorResponse
-            addAlert(AlertType.error, err.error)
-        },
-    })
-
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
-        mutation.mutate({ username: login, password: password })
+        // todo Login({login,password}, setUserContext)
     }
     return (
         <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>

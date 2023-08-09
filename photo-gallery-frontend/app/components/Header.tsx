@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import ThemeToggle from '@/app/components/ThemeToggle'
+import UserProvider from '../(User)/UserContext'
+import UserView from './userView'
 
 export default function Header() {
     return (
@@ -37,6 +39,11 @@ export default function Header() {
                                 PhotoGallery
                             </a>
                         </div>
+                        <UserProvider>
+                            <div className="flex-1">
+                                <UserView />
+                            </div>
+                        </UserProvider>
                     </div>
                 </div>
                 <div className="drawer-side">

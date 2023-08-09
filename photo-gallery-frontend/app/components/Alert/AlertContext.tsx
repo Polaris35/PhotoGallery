@@ -15,20 +15,20 @@ const AlertContext = createContext<AlertContextProps>({
 export const AlertProvider = ({ children }: { children: ReactNode }) => {
     const [alertList, setAlertList] = useState<Alert[]>([])
 
-    const addAlert = (type: AlertType, alertMessage: string) => {
-        setAlertList((c) => [...c, { type, alertMessage }])
-        const interval = setInterval(() => {
-            if (alertList.length === 0) clearInterval(interval)
-            removeAlert()
-        }, 5000)
-    }
-
     const removeAlert = () => {
         setAlertList((prevState) => {
             const newList = [...prevState]
             newList.shift()
             return newList
         })
+    }
+
+    const addAlert = (type: AlertType, alertMessage: string) => {
+        setAlertList((c) => [...c, { type, alertMessage }])
+        const interval = setInterval(() => {
+            if (alertList.length === 0) clearInterval(interval)
+            removeAlert()
+        }, 5000)
     }
 
     const contextValue = {
