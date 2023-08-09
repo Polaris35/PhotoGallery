@@ -15,6 +15,7 @@ app.use((req, res, next) => {
   
 app.use("/api/user", userRouter);
 
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

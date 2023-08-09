@@ -1,31 +1,29 @@
 'use client'
 import { FormEvent, useContext, useState } from 'react'
-import AlertContext from '@/app/components/Alert/AlertContext'
-import { AlertType } from '@/app/components/Alert/AlertPopup'
-import { useMutation } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import AlertContext from '@/app/components/Alert/AlertContext'
+import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
+import { AlertType } from '@/app/components/Alert/AlertPopup'
+import { useRouter } from 'next/navigation'
 import { ServerErrorResponse, User } from '../types'
 
-export default function RegistrationForm() {
+function LoginForm() {
     const { addAlert } = useContext(AlertContext)
     const [login, setLogin] = useState('username')
     const [password, setPassword] = useState('passwordpassword')
-    const [confirmPass, setConfirmPass] = useState('passwordpassword')
+    const [rememberMe, setRememberMe] = useState(false)
+
     const router = useRouter()
 
     const mutation = useMutation({
         mutationFn: (user: User) => {
             // console.log(user)
-            return axios.post(
-                'http://localhost:8080/api/user/registration',
-                user
-            )
+            return axios.post('http://localhost:8080/api/user/auth', user)
         },
         onSuccess: () => {
-            addAlert(AlertType.success, 'new user successful registered')
-            void router.push('/Login')
+            addAlert(AlertType.success, 'Wellcome!! :)')
+            void router.push('/')
         },
         onError: (error: AxiosError) => {
             const status = error.response?.status
@@ -38,24 +36,8 @@ export default function RegistrationForm() {
 
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
-        if (login.length < 4) {
-            addAlert(AlertType.info, 'login must be at least 4 characters long')
-            return
-        }
-        if (password.length < 8) {
-            addAlert(
-                AlertType.info,
-                'password must be at least 8 characters long'
-            )
-            return
-        }
-        if (password !== confirmPass) {
-            addAlert(AlertType.error, 'password not the same')
-            return
-        }
         mutation.mutate({ username: login, password: password })
     }
-
     return (
         <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
             <div className="form-control w-full">
@@ -66,13 +48,12 @@ export default function RegistrationForm() {
                 </label>
                 <input
                     type="text"
+                    className="input input-bordered input-primary w-full focus:border-none focus:drop-shadow-md invalid:border-red-700"
+                    placeholder="your name or login"
                     minLength={4}
                     maxLength={12}
-                    name="login"
                     value={login}
                     onChange={(e) => setLogin(e.target.value)}
-                    className="input input-bordered input-primary w-full focus:border-none focus:drop-shadow-md"
-                    placeholder="some name"
                     required
                 />
             </div>
@@ -85,42 +66,44 @@ export default function RegistrationForm() {
                 <input
                     type="password"
                     placeholder="••••••••"
+                    className="input input-bordered input-primary w-full focus:border-none focus:drop-shadow-md invalid:border-red-700"
                     minLength={8}
                     maxLength={16}
-                    name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="input input-bordered input-primary w-full focus:border-none focus:drop-shadow-md"
                     required
                 />
             </div>
-            <div className="form-control w-full">
-                <label className={'label'}>
-                    <span className="label-text text-neutral-content">
-                        Confirm password
+            <div className="form-control">
+                <label className="label justify-start gap-3 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(event) =>
+                            setRememberMe(event.target.checked)
+                        }
+                        name="rememberMe"
+                        className="checkbox checkbox-primary"
+                    />
+                    <span className="label-text text-neutral-content text-md">
+                        Remember me
                     </span>
                 </label>
-                <input
-                    type="password"
-                    placeholder="••••••••"
-                    minLength={8}
-                    maxLength={16}
-                    name="confirmPsw"
-                    value={confirmPass}
-                    onChange={(e) => setConfirmPass(e.target.value)}
-                    className="input input-bordered input-primary w-full focus:border-none focus:drop-shadow-md"
-                    required
-                />
             </div>
-            <button type="submit" className="w-full mt-3 btn btn-primary">
-                Create an account
+            <button type="submit" className="w-full btn btn-primary">
+                Sign in
             </button>
             <div className="text-sm font-light flex gap-2">
-                <span>Already have an account?</span>
-                <Link href="/Login" className="font-medium link link-primary">
-                    Login here
+                <span>Don’t have an account yet?</span>
+                <Link
+                    href="/Registration"
+                    className="font-medium link link-primary"
+                >
+                    Sign up
                 </Link>
             </div>
         </form>
     )
 }
+
+export default LoginForm
