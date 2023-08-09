@@ -10,16 +10,23 @@ export const registration = async (req:Request, res:Response)=> {
     try {
         const userData:User = {...req.body} as User;
         console.log(userData);
+
         if(!userData || userData.username.length < 4 ||
             userData.password.length < 8)
-            res.status(400).send("unvalid user data");
-    const userCheck = await prisma.user.findUnique({
-        where: {
-            login: userData.username,
-    },
-    });
-    if(userCheck)
-        res.status(409).json({error: "user with this username already exist"});
+        {
+            res.status(400).json({error: "invalid user data"});
+            return;
+        }
+
+        const userCheck = await prisma.user.findUnique({
+            where: {
+                login: userData.username,
+        },
+        });
+        if(userCheck){
+            res.status(409).json({error: "user with this username already exist"});
+            return;
+        }
         
         const user = await prisma.user.create({
             data: {
@@ -27,10 +34,25 @@ export const registration = async (req:Request, res:Response)=> {
                 password: userData.password
             }
         });
-        console.log(user);
-        res.status(200).send("test ok");
+        res.status(200).send("user successfuly added!");
+        return;
     }
     catch(error) {
-        res.status(400).send(error);
+        console.log(error);
+        res.status(400).json(error);
+        return;
+    }
+}
+
+const login = async (req:Request, res: Response) => {
+    try {
+        
+
+    }
+    catch(error)
+    {
+        console.log(error);
+        res.status(400).json(error);
+        return;
     }
 }
