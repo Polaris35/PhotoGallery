@@ -39,11 +39,9 @@ export default function Header() {
                                 PhotoGallery
                             </a>
                         </div>
-                        <UserProvider>
-                            <div className="flex-1">
-                                <UserView />
-                            </div>
-                        </UserProvider>
+                        <div className="mr-5">
+                            <UserView />
+                        </div>
                     </div>
                 </div>
                 <div className="drawer-side">

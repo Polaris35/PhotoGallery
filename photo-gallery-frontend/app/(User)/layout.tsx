@@ -1,6 +1,6 @@
+import PopupStack from '../components/Alert/PopupStack'
 import Providers from '../components/Providers'
 import '../globals.css'
-import Link from 'next/link'
 
 export const metadata = {
     title: 'Authorization',

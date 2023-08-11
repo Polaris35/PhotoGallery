@@ -7,18 +7,41 @@ import axios, { AxiosError } from 'axios'
 import { AlertType } from '@/app/components/Alert/AlertPopup'
 import { useRouter } from 'next/navigation'
 import { ServerErrorResponse, User } from '../types'
-import Login from '@/app/utils/Login'
+import { UserContext } from '../UserContext'
 
 function LoginForm() {
     const { addAlert } = useContext(AlertContext)
+    const { setUser } = useContext(UserContext)
     const [login, setLogin] = useState('username')
     const [password, setPassword] = useState('passwordpassword')
     const [rememberMe, setRememberMe] = useState(false)
 
     const router = useRouter()
 
+    const mutation = useMutation({
+        mutationFn: (user: User) => {
+            // console.log(user)
+            return axios.post('http://localhost:8080/api/user/login', user)
+        },
+        onSuccess: (response) => {
+            const token = response.data
+            localStorage.setItem('authToken', token)
+            void router.push('/')
+        },
+        onError: (error: AxiosError) => {
+            const status = error.response?.status
+            if (!status) return
+
+            const err = error.response?.data as ServerErrorResponse
+            addAlert(AlertType.error, err.error)
+        },
+    })
+
+    const loadingModalClasses = mutation.isLoading ? 'block w-full' : 'hidden'
+
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
+        mutation.mutate({ username: login, password: password })
         // todo Login({login,password}, setUserContext)
     }
     return (
@@ -72,6 +95,9 @@ function LoginForm() {
                         Remember me
                     </span>
                 </label>
+            </div>
+            <div className={loadingModalClasses}>
+                <span className="loading loading-dots loading-lg mx-auto"></span>
             </div>
             <button type="submit" className="w-full btn btn-primary">
                 Sign in

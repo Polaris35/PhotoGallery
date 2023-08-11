@@ -26,5 +26,7 @@
 
 .main_layout {
     display: grid;
-    grid-template-rows: 75px 1fr 75px;
+    gap: 10px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 75px 1fr;
 }

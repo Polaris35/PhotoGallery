@@ -4,8 +4,8 @@ import FileUploader from '@/app/components/FileUploader'
 
 export default function Grid() {
     return (
-        <section className={'overflow-y-scroll scroll-smooth px-10'}>
-            <div className="grid grid-cols-5 grid-flow-row-dense gap-5">
+        <section className={'flex flex-col h-full justify-between px-10'}>
+            <div className="grid grid-cols-5 grid-flow-row-dense gap-5 overflow-y-scroll scroll-smooth">
                 <Image
                     alt={'image-1'}
                     width={280}

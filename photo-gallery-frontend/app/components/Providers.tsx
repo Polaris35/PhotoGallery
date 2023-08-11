@@ -5,6 +5,7 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental'
 import { AlertProvider } from './Alert/AlertContext'
+import UserProvider from '../(User)/UserContext'
 
 function Providers({ children }: React.PropsWithChildren) {
     const [client] = React.useState(new QueryClient())
@@ -12,7 +13,9 @@ function Providers({ children }: React.PropsWithChildren) {
     return (
         <QueryClientProvider client={client}>
             <ReactQueryStreamedHydration>
-                <AlertProvider>{children}</AlertProvider>
+                <AlertProvider>
+                    <UserProvider>{children}</UserProvider>
+                </AlertProvider>
             </ReactQueryStreamedHydration>
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

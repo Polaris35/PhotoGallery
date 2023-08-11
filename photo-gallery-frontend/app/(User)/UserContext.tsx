@@ -1,25 +1,23 @@
 'use client'
-import { createContext, ReactNode, useState } from 'react'
-import { User } from './types'
+import { createContext, ReactNode, useContext, useState } from 'react'
+import { Payload, User } from './types'
 
 type userContextProps = {
     user: User
-    setUserContext: ({ id, username }: { id: number; username: string }) => void
+    setUser: ({ id, username }: User) => void
 }
 
 export const UserContext = createContext<userContextProps>({
     user: { username: 'null' },
-    setUserContext: ({ id, username }) => {},
+    setUser: ({ id, username }) => {},
 })
 
 export default function UserProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<User>({
-        username: '0',
-    })
+    const [user, setUser] = useState<User>({ username: '' })
 
     const contextValue = {
         user: user,
-        setUserContext: setUser,
+        setUser: setUser,
     }
     return (
         <UserContext.Provider value={contextValue}>
