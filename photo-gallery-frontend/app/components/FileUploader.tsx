@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import AlertContext from '@/app/components/Alert/AlertContext'
 import { AlertType } from '@/app/components/Alert/AlertPopup'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 type Props = {
     onSent: (imageUrl: string) => void
@@ -11,6 +12,7 @@ type Props = {
 export default function FileUploader(props: Props) {
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
     const { addAlert } = useContext(AlertContext)
+    const router = useRouter()
 
     const onChoose = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) {
@@ -53,6 +55,7 @@ export default function FileUploader(props: Props) {
             })
             console.log(response.data)
             // if response == "ok" add this image to grid(use callback onSent)
+            if (response.status === 401) router.push('/Login')
             if (response.status === 201) props.onSent(response.data)
         } catch (error) {
             console.log(error)

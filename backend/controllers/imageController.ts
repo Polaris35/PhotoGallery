@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../prisma/prisma";
 import { UploadedFile } from "express-fileupload";
+import { Picture } from "@prisma/client";
 
 export const uploadImage = async (req:Request, res:Response) => {
     try {
@@ -12,7 +13,6 @@ export const uploadImage = async (req:Request, res:Response) => {
 
     const selectedFile = req.files.selectedFile as UploadedFile;
 
-    console.log(req.user)
     const image = await prisma.picture.create({
             data: {
                 name: selectedFile.name,
@@ -22,7 +22,7 @@ export const uploadImage = async (req:Request, res:Response) => {
             }
         });
 
-    res.status(201).send(`http://localhost:8080/api/image/${image.id}`);
+    res.status(201).send(`http://localhost:8080/api/image/image/${image.id}`);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to upload image' });
@@ -52,5 +52,28 @@ export const getImage = async (req:Request, res:Response) => {
     } catch(error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to download image' });
+    }
+}
+
+export const getImagesList = async (req:Request, res:Response) => {
+    
+    const userId = req.user.userId;
+
+    try{
+        const images = await prisma.picture.findMany({where:{
+            userId: userId
+        }})
+        if(!images)
+        {
+             res.status(404).json({ error: 'images not found' });
+            return;
+        }
+        const imagePaths = images.map((item: Picture) => {
+            return `http://localhost:8080/api/image/image/${item.id}`
+        })
+        res.status(200).send(imagePaths);
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to load images list' });
     }
 }

@@ -5,7 +5,7 @@ import PopupStack from './components/Alert/PopupStack'
 export default function Home() {
     return (
         <>
-            <div className={'min-h-screen main_layout'}>
+            <div className={'min-h-full max-h-screen main_layout'}>
                 <Header />
                 <Grid />
             </div>

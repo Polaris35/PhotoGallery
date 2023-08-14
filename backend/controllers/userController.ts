@@ -80,7 +80,7 @@ export const login = async (req:Request, res: Response) => {
 
         const token = generateJwtToken(userCheck.id, userCheck.login);
 
-        console.log("token: " + token)
+        // console.log("token: " + token)
         
         res.status(200).send(token);
     }

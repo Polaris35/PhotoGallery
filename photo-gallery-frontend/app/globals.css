@@ -26,7 +26,9 @@
 
 .main_layout {
     display: grid;
+    max-height: 100vh;
+    height: 100%;
     gap: 10px;
     grid-template-columns: 1fr;
-    grid-template-rows: 55px 1fr;
+    grid-template-rows: 55px minmax(0,1fr);
 }
