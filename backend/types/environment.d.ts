@@ -1,6 +1,12 @@
 export {};
 
 declare global {
+
+    namespace Express {
+        export interface Request {
+            user?: string | JwtPayload;
+        }
+    }
     namespace NodeJS {
         interface ProcessEnv {
             DATABASE_URL: string;

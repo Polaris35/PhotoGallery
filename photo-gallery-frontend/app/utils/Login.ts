@@ -1,4 +1,4 @@
-import { User } from "../(User)/types";
+import { User } from "../types";
 
 type setUserContext = (id:number, name:string)=>void
 

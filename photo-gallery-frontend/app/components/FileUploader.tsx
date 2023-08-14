@@ -1,17 +1,17 @@
 'use client'
-import { ChangeEvent, useContext, useState } from 'react'
+import { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import AlertContext from '@/app/components/Alert/AlertContext'
 import { AlertType } from '@/app/components/Alert/AlertPopup'
 import axios from 'axios'
 
 type Props = {
-    onSent: () => void
+    onSent: (imageUrl: string) => void
 }
 
 export default function FileUploader(props: Props) {
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
-
     const { addAlert } = useContext(AlertContext)
+
     const onChoose = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) {
             setSelectedFile(null)
@@ -26,28 +26,48 @@ export default function FileUploader(props: Props) {
         setSelectedFile(selectedFile)
         console.log('Выбран файл:', selectedFile)
     }
-    const onButtonClick = () => {
+
+    const onButtonClick = async (event: FormEvent) => {
+        event.preventDefault()
+
         if (!selectedFile) {
             addAlert(AlertType.warning, 'file not selected')
             return
         }
-        // send to server file
-        const response = axios.post('http://localhost:8000/', {
-            selectedFile,
-        })
 
-        // if response == "ok" add this image to grid(use callback onSent)
+        const formData = new FormData()
+        console.log('отправляю файл')
+        console.log(selectedFile)
+        formData.append('selectedFile', selectedFile)
+        try {
+            const response = await axios({
+                method: 'post',
+                url: 'http://localhost:8080/api/image/upload',
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${localStorage.getItem(
+                        'authToken'
+                    )}`,
+                },
+            })
+            console.log(response.data)
+            // if response == "ok" add this image to grid(use callback onSent)
+            if (response.status === 201) props.onSent(response.data)
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
-        <div>
+        <form className="flex gap-3 items-end" onSubmit={onButtonClick}>
             <input
                 type={'file'}
                 onChange={onChoose}
-                className="file-input file-input-bordered file-input-accent w-full max-w-xs ml-auto mr-5"
+                className="file-input file-input-bordered file-input-accent w-full max-w-xs"
             />
-            <button className="btn btn-outline" onClick={onButtonClick}>
+            <button type="submit" className="btn btn-outline">
                 send
             </button>
-        </div>
+        </form>
     )
 }

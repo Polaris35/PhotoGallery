@@ -2,7 +2,7 @@
 import { useContext, useEffect } from 'react'
 import { UserContext } from '../(User)/UserContext'
 import { useRouter } from 'next/navigation'
-import { Payload } from '../(User)/types'
+import { Payload } from '../types'
 
 function UserView() {
     const { user, setUser } = useContext(UserContext)

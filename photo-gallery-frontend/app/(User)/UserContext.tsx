@@ -1,6 +1,6 @@
 'use client'
 import { createContext, ReactNode, useContext, useState } from 'react'
-import { Payload, User } from './types'
+import { Payload, User } from '../types'
 
 type userContextProps = {
     user: User

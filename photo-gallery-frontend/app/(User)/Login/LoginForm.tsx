@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import { AlertType } from '@/app/components/Alert/AlertPopup'
 import { useRouter } from 'next/navigation'
-import { ServerErrorResponse, User } from '../types'
+import { ServerErrorResponse, User } from '../../types'
 import { UserContext } from '../UserContext'
 
 function LoginForm() {

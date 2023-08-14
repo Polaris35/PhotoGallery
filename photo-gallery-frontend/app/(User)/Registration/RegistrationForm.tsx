@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import axios, { AxiosError } from 'axios'
-import { ServerErrorResponse, User } from '../types'
+import { ServerErrorResponse, User } from '../../types'
 
 export default function RegistrationForm() {
     const { addAlert } = useContext(AlertContext)
