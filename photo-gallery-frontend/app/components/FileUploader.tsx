@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
 type Props = {
-    onSent: (imageUrl: string) => void
+    onSent: (imgId: string, name: string) => void
 }
 
 export default function FileUploader(props: Props) {
@@ -56,7 +56,8 @@ export default function FileUploader(props: Props) {
             console.log(response.data)
             // if response == "ok" add this image to grid(use callback onSent)
             if (response.status === 401) router.push('/Login')
-            if (response.status === 201) props.onSent(response.data)
+            if (response.status === 201)
+                props.onSent(response.data.imgId, response.data.name)
         } catch (error) {
             console.log(error)
         }

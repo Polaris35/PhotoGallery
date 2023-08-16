@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import prisma from "../prisma/prisma";
 import { UploadedFile } from "express-fileupload";
 import { Picture } from "@prisma/client";
+import { verify } from "jsonwebtoken";
 
 export const uploadImage = async (req:Request, res:Response) => {
     try {
@@ -22,7 +23,10 @@ export const uploadImage = async (req:Request, res:Response) => {
             }
         });
 
-    res.status(201).send(`http://localhost:8080/api/image/image/${image.id}`);
+    res.status(201).send({
+        imgId: image.id,
+        name: image.name
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to upload image' });
@@ -31,6 +35,17 @@ export const uploadImage = async (req:Request, res:Response) => {
 
 export const getImage = async (req:Request, res:Response) => {
     const imageId = req.params.imageId;
+
+    const token = req.params.token;
+    const secretJwt = process.env.JWT_SECRET
+
+    if (!token) return res.status(401).send("Access denied. No token provided.");
+
+    try {
+        verify(token, secretJwt);
+    } catch (ex) {
+        res.status(401).send("Invalid token.");
+    }
     
     try{
         const image = await prisma.picture.findUnique({where:{
@@ -65,13 +80,16 @@ export const getImagesList = async (req:Request, res:Response) => {
         }})
         if(!images)
         {
-             res.status(404).json({ error: 'images not found' });
+            res.status(404).json({ error: 'images not found' });
             return;
         }
-        const imagePaths = images.map((item: Picture) => {
-            return `http://localhost:8080/api/image/image/${item.id}`
+        const imageDetails = images.map((item: Picture) => {
+            return {
+                imgId: item.id,
+                name: item.name
+            }
         })
-        res.status(200).send(imagePaths);
+        res.status(200).send(imageDetails);
     } catch(error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to load images list' });
