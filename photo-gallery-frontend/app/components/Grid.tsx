@@ -71,6 +71,19 @@ export default function Grid() {
                             imgId={item.imgId}
                             name={item.name}
                             onImageClick={() => openImageViewer(index)}
+                            onDeleted={() => {
+                                setImageList((e) => {
+                                    e.splice(index, 1)
+                                    return [...e]
+                                })
+                            }}
+                            onRenamed={(newName: string) => {
+                                setImageList((prevList) => {
+                                    const newList = [...prevList]
+                                    newList[index].name = newName
+                                    return newList
+                                })
+                            }}
                         />
                     )
                 })}

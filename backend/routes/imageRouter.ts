@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { getImage, getImagesList, uploadImage } from "../controllers/imageController";
+import { deleteImage, getImage, getImagesList, renameImage, uploadImage } from "../controllers/imageController";
 import auth from "../middleware/auth";
 
 const router = Router();
@@ -7,5 +7,7 @@ const router = Router();
 router.post('/upload',auth, uploadImage);
 router.get('/image/:imageId/:token', getImage);
 router.get('/getList',auth, getImagesList);
+router.delete('/delete',auth, deleteImage);
+router.put('/rename', auth, renameImage);
 
 export default router;

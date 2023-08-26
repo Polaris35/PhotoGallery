@@ -95,3 +95,48 @@ export const getImagesList = async (req:Request, res:Response) => {
         res.status(500).json({ error: 'Failed to load images list' });
     }
 }
+
+export const deleteImage = async (req:Request, res:Response) => {
+    const userId = req.user.userId;
+    const imageId = req.query.imgId as string;
+
+    try{
+
+         const image = await prisma.picture.delete({where:{
+            id: imageId,
+            userId: userId
+        }})
+
+        if(!image) {
+            res.status(404).json({ error: 'image not found' });
+            return;
+        }
+        console.log(image)
+        res.status(200).send('image successfuly deleted')
+
+    } catch(error) {
+         res.status(500).json({ error: 'Failed to delete image' });
+    }
+}
+
+export const renameImage = async (req:Request, res:Response) => {
+    const userId = req.user.userId;
+    const imageId = req.query.imgId as string;
+    const newImageName = req.query.newName as string;
+
+    try {
+        const image = await prisma.picture.update({
+            where: {
+                id: imageId,
+                userId: userId,
+            },
+            data: {
+                name: newImageName
+            }
+        })
+        console.log(image.name)
+        res.status(200).send('Image successfuly renamed');
+    } catch(error) {
+        res.status(500).json({ error: 'Failed to update image' });
+    }
+}
